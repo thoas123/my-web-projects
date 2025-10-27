@@ -1,0 +1,40 @@
+
+     body {
+        background-image: url('../carImages/carBackground.png.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: 0;
+        min-height: 100vh;
+    }
+    .content-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+}
+    nav {
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        width:500px;
+        margin-left:350px;
+        margin-top:100px;
+        font-family: Arial, sans-serif;
+        
+
+    }
+    a{
+        text-decoration: none;
+        color:blue;
+        font-size:20px;
+    }
+    .hero{
+        font-family: Arial;
+        font-size:25px;
+        text-align: center;
+        margin-top:100px;
+        color:white;
+    }
+

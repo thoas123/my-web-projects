@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Inquiries - Drive Hub Motors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Navigation bar */
+    nav {
+      background-color: #232f3e;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .order {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px auto;
+      width: 80%;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .order img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 20px;
+    }
+
+    .order-details h3 {
+      margin: 0;
+      color: #222;
+    }
+
+    .order-details p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .order-actions {
+      margin-left: auto;
+    }
+
+    button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="my-inquiries.html">My Inquiries</a>
+    <a href="orders.html">My Orders</a>
+    <a href="vehicles.html">Vehicles</a>
+  </nav>
+
+  <h2>Your Vehicle Inquiries</h2>
+  <div id="inquiries-list"></div>
+
+  <script>
+    const container = document.getElementById("inquiries-list");
+    const inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+
+    if (inquiries.length === 0) {
+      container.innerHTML = "<p class='empty'>No inquiries yet.</p>";
+    } else {
+      inquiries.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("order");
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div class="order-details">
+            <h3>${item.name}</h3>
+            <p>Price: ${item.price}</p>
+            <p>Inquiry Date: ${item.date}</p>
+            <p>Status: <strong>${item.status}</strong></p>
+          </div>
+          <div class="order-actions">
+            <button onclick="cancelInquiry('${item.name}')">Cancel</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function cancelInquiry(name) {
+      const updated = inquiries.map(item => {
+        if (item.name === name) item.status = "Canceled";
+        return item;
+      });
+      localStorage.setItem("inquiries", JSON.stringify(updated));
+      alert(`${name} inquiry canceled.`);
+      location.reload();
+    }
+  </script>
+</body>
+</html>

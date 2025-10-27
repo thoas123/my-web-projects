@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveHub Motors - Home</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+  }
+
+  /* Navigation */
+  nav {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: #ff6b00;
+  }
+
+  /* Hero Section */
+  .hero {
+    height: 50vh;
+    background: url('carImages/carBackground.png.jpg') center/cover no-repeat;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    margin-top: 60px; /* spacing for fixed nav */
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color:blue;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  /* Car slider container */
+  .car-slider {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 30px 0;
+    padding: 10px 0;
+    background-color: #fff;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+  }
+
+  .car-slider img {
+    width: 200px;
+    height: 60px;
+    margin-right: 20px;
+    display: inline-block;
+    object-fit: cover;
+    border-radius: 10px;
+    animation: slideLeft 20s linear infinite;
+  }
+     
+
+  /* Slide animation */
+  @keyframes slideLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-1200px); /* adjust based on total width of images */
+    }
+  }
+
+  footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #222;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="vehicles.html">Vehicles</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<section class="hero">
+  <h1>Find Your Dream Car</h1>
+  <p>Explore our latest collection of cars</p>
+</section>
+
+<!-- Car Animation -->
+<div class="car-slider">
+  <img src="carImages/car1.png.jpg" alt="Car 1">
+  <img src="carImages/car2.png.jpg" alt="Car 2">
+  <img src="carImages/car3.png.jpg" alt="Car 3">
+  <img src="carImages/car4.png.jpg" alt="Car 4">
+  <img src="carImages/car5.png.jpg" alt="Car 5">
+  <img src="carImages/car6.png.jpg" alt="Car 6">
+</div>
+
+<footer>
+  <p>&copy; 2025 DriveHub Motors | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

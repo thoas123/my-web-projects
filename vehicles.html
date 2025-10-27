@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Vehicles - Drive Hub Motors</title>
+    <link rel="stylesheet" href="styles/vehicle.css" />
+    <script src="scripts/vehicle.js"></script>
+   
+   
+  </head>
+  <body>
+    <div class="header">
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <header class="page-header">
+        <h2>Our Vehicle Collection</h2>
+        <p>Explore our premium selection of vehicles</p>
+      </header>
+    </div>
+
+    <main class="vehicle-gallery">
+      <div class="car-card">
+        <img src="carImages/car1.png.jpg" alt="Premium Luxury Sedan" />
+        <div class="car-details">
+          <h3>Premium Luxury Sedan</h3>
+          <p>Elegant and powerful luxury sedan featuring:</p>
+          <ul>
+            <li>Sleek aerodynamic design</li>
+            <li>Premium leather interior</li>
+            <li>Advanced safety features</li>
+            <li>Powerful engine performance</li>
+          </ul>
+          <p class="price">Starting at $45,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Premium Luxury Sedan', 'carImages/car1.png.jpg', '$45,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car2.png.jpg" alt="Sporty Coupe" />
+        <div class="car-details">
+          <h3>Sporty Coupe</h3>
+          <p>Experience the thrill of driving with our sporty coupe:</p>
+          <ul>
+            <li>Aggressive styling and performance</li>
+            <li>Turbocharged engine</li>
+            <li>Sport-tuned suspension</li>
+            <li>High-performance brakes</li>
+          </ul>
+          <p class="price">Starting at $38,000</p>
+         
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Sporty Coupe', 'carImages/car2.png.jpg', '$38,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car3.png.jpg" alt="Family SUV" />
+        <div class="car-details">
+          <h3>Family SUV</h3>
+          <p>Spacious and safe family SUV with features like:</p>
+          <ul>
+            <li>Ample seating for 7 passengers</li>
+            <li>Advanced infotainment system</li>
+            <li>All-wheel drive capability</li>
+            <li>Top safety ratings</li>
+          </ul>
+          <p class="price">Starting at $32,000</p>
+          
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Family SUV', 'carImages/car3.png.jpg', '$32,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car4.png.jpg" alt="Electric Hatchback" />
+        <div class="car-details">
+          <h3>Electric Hatchback</h3>
+          <p>Eco-friendly electric hatchback offering:</p>
+          <ul>
+            <li>Zero emissions</li>
+            <li>Compact urban design</li>
+            <li>Long-range battery</li>
+            <li>Fast charging capability</li>
+          </ul>
+          <p class="price">Starting at $29,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Electric Hatchback', 'carImages/car4.png.jpg', '$29,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car5.png.jpg" alt="Off-Road Truck" />
+        <div class="car-details">
+          <h3>Off-Road Truck</h3>
+          <p>Rugged off-road truck built for adventure with:</p>
+          <ul>
+            <li>4x4 drivetrain</li>
+            <li>High ground clearance</li>
+            <li>Durable suspension system</li>
+            <li>Powerful towing capacity</li>
+          </ul>
+          <p class="price">Starting at $40,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Off-Road Truck', 'carImages/car5.png.jpg', '$40,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car6.png.jpg" alt="Sport Bike" />
+        <div class="car-details">
+          <h3>Sport Bike</h3>
+          <p>High-performance sport bike designed for speed and agility:</p>
+          <ul>
+            <li>Lightweight frame</li>
+            <li>Powerful engine</li>
+            <li>Advanced braking system</li>
+            <li>Aerodynamic design</li>
+          </ul>
+          <p class="price">Starting at $15,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Sport Bike', 'carImages/car6.png.jpg', '$15,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car7.png.jpg" alt="Hybrid Crossover" />
+        <div class="car-details">
+          <h3>Hybrid Crossover</h3>
+          <p>Versatile hybrid crossover combining efficiency and space:</p>
+          <ul>
+            <li>Fuel-efficient hybrid engine</li>
+            <li>Spacious interior</li>
+            <li>Advanced driver-assist features</li>
+            <li>Modern infotainment system</li>
+          </ul>
+          <p class="price">Starting at $35,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Hybrid Crossover', 'carImages/car7.png.jpg', '$35,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car8.png.jpg" alt="Convertible Roadster" />
+        <div class="car-details">
+          <h3>Convertible Roadster</h3>
+          <p>Stylish convertible roadster perfect for sunny drives:</p>
+          <ul>
+            <li>Retractable soft top</li>
+            <li>Sport-tuned suspension</li>
+            <li>Powerful engine options</li>
+            <li>Luxurious interior</li>
+          </ul>
+          <p class="price">Starting at $50,000</p>
+               <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Convertible Roadster', 'carImages/car8.png.jpg', '$50,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car9.png.jpg" alt="Compact Sedan" />
+        <div class="car-details">
+          <h3>Compact Sedan</h3>
+          <p>Reliable and efficient compact sedan featuring:</p>
+          <ul>
+            <li>Fuel-efficient engine</li>
+            <li>Comfortable interior</li>
+            <li>Advanced safety features</li>
+            <li>Modern infotainment system</li>
+          </ul>
+          <p class="price">Starting at $22,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Compact Sedan', 'carImages/car9.png.jpg', '$22,000')">Inquire Now</a>
+        </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car10.png.jpg" alt="Luxury SUV" />
+        <div class="car-details">
+          <h3>Luxury SUV</h3>
+          <p>Premium luxury SUV offering comfort and performance:</p>
+          <ul>
+            <li>Spacious and luxurious interior</li>
+            <li>Powerful engine options</li>
+            <li>Advanced safety and driver-assist features</li>
+            <li>State-of-the-art infotainment system</li>
+          </ul>
+          <p class="price">Starting at $60,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Luxury SUV', 'carImages/car10.png.jpg', '$60,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car11.png.jpg" alt="Electric SUV" />
+        <div class="car-details">
+          <h3>Electric SUV</h3>
+          <p>Innovative electric SUV combining power and sustainability:</p>
+          <ul>
+            <li>Long-range electric battery</li>
+            <li>Spacious interior with modern amenities</li>
+            <li>Advanced safety features</li>
+            <li>Fast charging capability</li>
+          </ul>
+          <p class="price">Starting at $55,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Electric SUV', 'carImages/car11.png.jpg', '$55,000')">Inquire Now</a>
+        </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car12.png.jpg" alt="Performance Sedan" />
+        <div class="car-details">
+          <h3>Performance Sedan</h3>
+          <p>Dynamic performance sedan designed for driving enthusiasts:</p>
+          <ul>
+            <li>Turbocharged engine options</li>
+            <li>Sport-tuned suspension</li>
+            <li>Advanced braking system</li>
+            <li>Luxurious interior features</li>
+          </ul>
+          <p class="price">Starting at $48,000</p>
+        <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Performance Sedan', 'carImages/car12.png.jpg', '$48,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car13.png.jpg" alt="Mini Electric Car" />
+        <div class="car-details">
+          <h3>Mini Electric Car</h3>
+          <p>
+            Compact and efficient mini electric car perfect for city driving:
+          </p>
+          <ul>
+            <li>Zero emissions</li>
+            <li>Compact design for easy parking</li>
+            <li>Agile handling</li>
+            <li>Affordable electric mobility</li>
+          </ul>
+          <p class="price">Starting at $20,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Mini Electric Car', 'carImages/car13.png.jpg', '$20,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car14.png.jpg" alt="Luxury Coupe" />
+        <div class="car-details">
+          <h3>Luxury Coupe</h3>
+          <p>Exquisite luxury coupe combining style and performance:</p>
+          <ul>
+            <li>Sleek and aerodynamic design</li>
+            <li>Powerful engine options</li>
+            <li>Premium interior materials</li>
+            <li>Advanced technology features</li>
+          </ul>
+          <p class="price">Starting at $70,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Luxury Coupe', 'carImages/car14.png.jpg', '$70,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car15.png.jpg" alt="Crossover SUV" />
+        <div class="car-details">
+          <h3>Crossover SUV</h3>
+          <p>Versatile crossover SUV perfect for families and adventures:</p>
+          <ul>
+            <li>Spacious interior with flexible seating</li>
+            <li>Fuel-efficient engine options</li>
+            <li>Advanced safety features</li>
+            <li>Modern infotainment system</li>
+          </ul>
+          <p class="price">Starting at $35,000</p>
+          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Crossover SUV', 'carImages/car15.png.jpg', '$35,000')">Inquire Now</a>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="carImages/car16.png.jpg" alt="Roadster Convertible" />
+        <div class="car-details">
+          <h3>Roadster Convertible</h3>
+          <p>Stylish roadster convertible designed for open-air driving:</p>
+          <ul>
+            <li>Retractable soft top</li>
+            <li>Sport-tuned suspension</li>
+            <li>Powerful engine options</li>
+            <li>Luxurious interior features</li>
+          </ul>
+          <p class="price">Starting at $52,000</p>
+         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Roadster Convertible', 'carImages/car16.png.jpg', '$52,000')">Inquire Now</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
