@@ -12,6 +12,7 @@
       margin: 0;
     }
 
+
     /* Navigation bar */
     nav {
       background-color: #232f3e;
@@ -91,49 +92,116 @@
   </style>
 </head>
 <body>
+  <script src="scripts/auth.js"></script>
   <nav>
+    <a href="index.html">Home</a>
+    <a href="vehicles.html">Vehicles</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
     <a href="my-inquiries.html">My Inquiries</a>
     <a href="orders.html">My Orders</a>
-    <a href="vehicles.html">Vehicles</a>
+    <a href="admin.html">Admin</a>
   </nav>
 
   <h2>Your Vehicle Inquiries</h2>
   <div id="inquiries-list"></div>
 
   <script>
-    const container = document.getElementById("inquiries-list");
-    const inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+    document.addEventListener("DOMContentLoaded", () => {
+      displayInquiries();
+    });
 
-    if (inquiries.length === 0) {
-      container.innerHTML = "<p class='empty'>No inquiries yet.</p>";
-    } else {
-      inquiries.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("order");
-        div.innerHTML = `
-          <img src="${item.img}" alt="${item.name}">
-          <div class="order-details">
-            <h3>${item.name}</h3>
-            <p>Price: ${item.price}</p>
-            <p>Inquiry Date: ${item.date}</p>
-            <p>Status: <strong>${item.status}</strong></p>
-          </div>
-          <div class="order-actions">
-            <button onclick="cancelInquiry('${item.name}')">Cancel</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
+    async function displayInquiries() {
+      const container = document.getElementById("inquiries-list");
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/inquiries', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const inquiries = await response.json();
+
+        container.innerHTML = "";
+        if (inquiries.length === 0) {
+          container.innerHTML = "<p class='empty'>No inquiries yet.</p>";
+        } else {
+          inquiries.forEach(item => {
+            const div = document.createElement("div");
+            div.classList.add("order");
+
+            // Format the price as USD currency
+            const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(item.price);
+
+            div.innerHTML = `
+              <img src="${item.img}" alt="${item.name}">
+              <div class="order-details">
+                <h3>${item.name}</h3>
+                <p>Price: ${formattedPrice}</p>
+                <p>Inquiry Date: ${item.date}</p>
+                <p>Status: <strong>${item.status}</strong></p>
+              </div>
+              <div class="order-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                ${item.status === 'Approved' ?
+                  `<button style="background-color: #28a745;" onclick="payWithMpesa(${item.id}, ${item.price})">Pay with M-Pesa</button>` : ''
+                }
+                ${item.status === 'Pending' ?
+                  `<button onclick="cancelInquiry(${item.id}, '${item.name}')">Cancel</button>` : ''
+                }
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        }
+      } catch (error) {
+        container.innerHTML = "<p class='empty'>Failed to load inquiries.</p>";
+        console.error('Error fetching inquiries:', error);
+      }
     }
 
-    function cancelInquiry(name) {
-      const updated = inquiries.map(item => {
-        if (item.name === name) item.status = "Canceled";
-        return item;
+    async function cancelInquiry(id, name) {
+      // Since inquiries are just orders, we can use the orders cancel endpoint.
+      // We will also check if the user wants to proceed.
+      if (!confirm(`Are you sure you want to cancel the inquiry for ${name}?`)) return;
+
+      const token = localStorage.getItem('token');
+      await fetch(`http://localhost:3000/api/orders/${id}/cancel`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      localStorage.setItem("inquiries", JSON.stringify(updated));
       alert(`${name} inquiry canceled.`);
-      location.reload();
+      displayInquiries(); // Refresh the list
+    }
+
+    async function payWithMpesa(orderId, amount) {
+      const phone = prompt("Please enter your M-Pesa phone number (e.g., 2547...):");
+      if (!phone || !/^(254)\d{9}$/.test(phone)) {
+        alert("Invalid phone number format. Please use 254...");
+        return;
+      }
+
+      alert("Processing payment... Please check your phone to enter your M-Pesa PIN.");
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/mpesa/stk-push', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ amount: Math.round(amount), phone, orderId })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Payment initiation failed.');
+        }
+        alert(data.CustomerMessage || 'STK push sent successfully. Please complete the transaction on your phone.');
+      } catch (error) {
+        console.error('M-Pesa payment error:', error);
+        alert(`An error occurred: ${error.message}`);
+      }
     }
   </script>
 </body>

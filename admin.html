@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage All Orders - Drive Hub Motors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Navigation bar */
+    nav {
+      background-color: #232f3e;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+    
+    nav a.active {
+      color: #ff6b00;
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .order {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px auto;
+      width: 80%;
+      max-width: 800px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    .order:hover {
+        background-color: #f9f9f9;
+    }
+
+    .order img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 20px;
+    }
+
+    .order-details {
+        flex-grow: 1;
+    }
+
+    .order-details h3 {
+      margin: 0 0 10px 0;
+      color: #222;
+    }
+
+    .order-details p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .order-actions {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      color: #666;
+    }
+
+    .btn-approve { background-color: #28a745; color: white; }
+    .btn-approve:hover:not(:disabled) { background-color: #218838; }
+
+    .btn-complete { background-color: #007bff; color: white; }
+    .btn-complete:hover:not(:disabled) { background-color: #0056b3; }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      margin-top: 40px;
+      font-size: 1.2rem;
+    }
+
+    .status-pending { color: #ff9900; font-weight: bold; }
+    .status-approved { color: #28a745; font-weight: bold; }
+    .status-completed { color: #007bff; font-weight: bold; }
+    .status-canceled { color: #dc3545; font-weight: bold; }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="vehicles.html">Vehicles</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="my-inquiries.html">My Inquiries</a>
+    <a href="orders.html">My Orders</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <h2>Manage All Orders</h2>
+  <div id="orders-list"></div>
+
+  <script src="scripts/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Security Check: Ensure user is an admin
+      const userRole = localStorage.getItem('role');
+      if (userRole !== 'admin') {
+        alert('Access Denied. You must be an administrator to view this page.');
+        window.location.href = 'index.html'; // Redirect non-admins
+        return;
+      }
+
+      // If admin, display the orders.
+      displayAllOrders();
+      
+      const adminLink = document.querySelector('nav a[href="admin.html"]');
+      if(adminLink) adminLink.classList.add('active');
+    });
+
+    async function displayAllOrders() {
+      const container = document.getElementById("orders-list");
+      container.innerHTML = "<p class='empty'>Loading orders...</p>";
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/admin/orders', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to fetch orders.');
+        }
+
+        const orders = await response.json();
+
+        container.innerHTML = ""; // Clear loading message
+        if (orders.length === 0) {
+          container.innerHTML = "<p class='empty'>No orders to manage.</p>";
+        } else {
+          orders.forEach(order => {
+            const div = document.createElement("div");
+            div.classList.add("order");
+            div.id = `order-${order.id}`; // Add an ID for easy targeting
+
+            const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(order.price);
+
+            div.innerHTML = `
+              <img src="${order.img}" alt="${order.name}">
+              <div class="order-details">
+                <h3>${order.name}</h3>
+                <p>Price: <strong>${formattedPrice}</strong></p>
+                <p>User: <strong>${order.username || 'N/A'}</strong></p>
+                <p>Order Date: ${order.date}</p>
+                <p>Status: <span class="status-${(order.status || '').toLowerCase()}">${order.status || 'N/A'}</span></p>
+              </div>
+              <div class="order-actions">
+                <button class="btn-approve" onclick="approveOrder(${order.id}, this)" ${order.status !== 'Pending' ? 'disabled' : ''}>Approve</button>
+                <button class="btn-complete" onclick="completeOrder(${order.id}, this)" ${order.status !== 'Approved' ? 'disabled' : ''}>Complete</button>
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        }
+      } catch (error) {
+        container.innerHTML = `<p class='empty' style='color: red;'>Error: ${error.message}</p>`;
+        console.error('Error fetching all orders:', error);
+      }
+    } 
+
+    async function approveOrder(id, buttonElement) {
+      // Provide immediate feedback
+      buttonElement.disabled = true;
+      buttonElement.textContent = 'Processing...';
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:3000/api/orders/${id}/approve`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to approve order.');
+        }
+
+        // Update the UI for this specific order instead of a full reload
+        const orderDiv = document.getElementById(`order-${id}`);
+        if (orderDiv) {
+          const statusSpan = orderDiv.querySelector('.order-details p span');
+          statusSpan.textContent = 'Approved';
+          statusSpan.className = 'status-approved';
+          
+          buttonElement.remove(); // Remove the approve button
+          
+          const completeButton = orderDiv.querySelector('.btn-complete');
+          if(completeButton) completeButton.disabled = false; // Enable the complete button
+        }
+      } catch (error) {
+        console.error('Error approving order:', error);
+        alert(`Could not approve order: ${error.message}`);
+        buttonElement.disabled = false; // Re-enable button on failure
+        buttonElement.textContent = 'Approve';
+      }
+    }
+
+    async function completeOrder(id, buttonElement) {
+      // Provide immediate feedback
+      buttonElement.disabled = true;
+      buttonElement.textContent = 'Processing...';
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:3000/api/orders/${id}/complete`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to complete order.');
+
+        // Update the UI for this specific order
+        const orderDiv = document.getElementById(`order-${id}`);
+        if (orderDiv) {
+          const statusSpan = orderDiv.querySelector('.order-details p span');
+          statusSpan.textContent = 'Completed';
+          statusSpan.className = 'status-completed';
+          buttonElement.remove(); // Remove the complete button
+        }
+      } catch (error) {
+        console.error('Error completing order:', error);
+        alert('Could not complete order.');
+        buttonElement.disabled = false; // Re-enable on failure
+        buttonElement.textContent = 'Complete';
+      }
+    }
+  </script>
+</body>
+</html>

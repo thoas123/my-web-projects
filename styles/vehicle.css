@@ -128,6 +128,22 @@ nav a:hover {
     }
 }
 
+/* --- Media Queries for Responsiveness --- */
+
+/* For Tablets */
+@media (max-width: 1024px) {
+    .vehicle-gallery {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    }
+}
+
+/* For Mobile Phones */
+@media (max-width: 768px) {
+    .vehicle-gallery {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+    }
+}
+
 /* Optional hover effect */
 .car-card:hover {
     transform: translateY(-5px);

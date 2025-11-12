@@ -93,10 +93,15 @@
   </style>
 </head>
 <body>
+  <script src="scripts/auth.js"></script>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="my-inquiries.html">My Inquiries</a>
+      <a href="orders.html">My Orders</a>
+      <a href="admin.html">Admin</a>
   </nav>
 
   <section>
@@ -118,7 +123,7 @@
   </section>
 
   <div class="form">
-    <form>
+    <form onsubmit="handleFormSubmit(event)">
       <h3>Send Us a Message</h3>
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
@@ -130,7 +135,26 @@
       <textarea id="message" name="message" rows="4" required></textarea>
 
       <button type="submit">Submit</button>
+      <p id="form-message"></p>
     </form>
   </div>
+  <script>
+    function handleFormSubmit(event){
+      event.preventDefault(); // Corrected the typo here
+      const name=document.getElementById("name").value;
+      const email=document.getElementById("email").value;
+      const message=document.getElementById("message").value;
+      const demo=document.getElementById("form-message");
+      if(name !=""&& email !="" && message !=""){
+        demo.textContent="Thank you for your message!";
+
+      }
+      else{
+             demo.textContent="Please fill out all fields.";
+  
+      }
+    }
+
+  </script>
 </body>
 </html>

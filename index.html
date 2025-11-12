@@ -34,6 +34,11 @@
     color: #ff6b00;
   }
 
+  nav a.active {
+    color: #ff6b00;
+    text-decoration: underline;
+  }
+
   /* Hero Section */
   .hero {
     height: 50vh;
@@ -106,6 +111,9 @@
   <a href="vehicles.html">Vehicles</a>
   <a href="about.html">About</a>
   <a href="contact.html">Contact</a>
+  <a href="my-inquiries.html">My Inquiries</a>
+  <a href="orders.html">My Orders</a>
+  <a href="admin.html">Admin</a>
 </nav>
 
 <section class="hero">
@@ -127,5 +135,14 @@
   <p>&copy; 2025 DriveHub Motors | All Rights Reserved</p>
 </footer>
 
+<script src="scripts/auth.js"></script>
+<script>
+  // This script is for page-specific logic
+  document.addEventListener('DOMContentLoaded', () => {
+    // Highlight active nav link
+    updateNav();
+    document.querySelector('nav a[href="index.html"]').classList.add('active');
+  });
+</script>
 </body>
 </html>

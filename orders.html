@@ -107,6 +107,11 @@
       font-weight: bold;
     }
 
+    .status-completed {
+      color: blue;
+      font-weight: bold;
+    }
+
     .status-canceled {
       color: red;
       font-weight: bold;
@@ -114,65 +119,88 @@
   </style>
 </head>
 <body>
+  <script src="scripts/auth.js"></script>
   <nav>
+    <a href="index.html">Home</a>
+    <a href="vehicles.html">Vehicles</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
     <a href="my-inquiries.html">My Inquiries</a>
     <a href="orders.html">My Orders</a>
-    <a href="index.html">Vehicles</a>
+    <a href="admin.html">Admin</a>
   </nav>
 
   <h2>Your Orders</h2>
   <div id="orders-list"></div>
 
   <script>
-    const container = document.getElementById("orders-list");
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    document.addEventListener("DOMContentLoaded", () => {
+      displayOrders();
+    });
 
-    function displayOrders() {
-      container.innerHTML = "";
-      if (orders.length === 0) {
-        container.innerHTML = "<p class='empty'>No orders yet.</p>";
-      } else {
-        orders.forEach(order => {
-          const div = document.createElement("div");
-          div.classList.add("order");
-          div.innerHTML = `
-            <img src="${order.img}" alt="${order.name}">
-            <div class="order-details">
-              <h3>${order.name}</h3>
-              <p>Price: ${order.price}</p>
-              <p>Order Date: ${order.date}</p>
-              <p>Status: <span class="status-${order.status.toLowerCase()}">${order.status}</span></p>
-            </div>
-            <div class="order-actions">
-              <button onclick="cancelOrder('${order.name}')" ${order.status !== "Pending" ? "disabled" : ""}>Cancel</button>
-              <button onclick="removeOrder('${order.name}')">Remove</button>
-            </div>
-          `;
-          container.appendChild(div);
+    async function displayOrders() {
+      const container = document.getElementById("orders-list");
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/orders', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
-      }
-    }
+        const orders = await response.json();
 
-    function cancelOrder(name) {
-      orders = orders.map(order => {
-        if (order.name === name && order.status === "Pending") {
-          order.status = "Canceled";
+        container.innerHTML = "";
+        if (orders.length === 0) {
+          container.innerHTML = "<p class='empty'>No orders yet.</p>";
+        } else {
+          orders.forEach(order => {
+            const div = document.createElement("div");
+            div.classList.add("order");
+
+            // Format the price as USD currency
+            const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(order.price);
+
+            div.innerHTML = `
+              <img src="${order.img}" alt="${order.name}">
+              <div class="order-details">
+                <h3>${order.name}</h3>
+                <p>Price: ${formattedPrice}</p>
+                <p>Order Date: ${order.date}</p>
+                <p>Status: <span class="status-${order.status.toLowerCase()}">${order.status}</span></p>
+              </div>
+              <div class="order-actions">
+                <button onclick="cancelOrder(${order.id}, '${order.name}')" ${order.status !== "Pending" ? "disabled" : ""}>Cancel</button>
+                <button onclick="removeOrder(${order.id})">Remove</button>
+              </div>
+            `;
+            container.appendChild(div);
+          });
         }
-        return order;
+      } catch (error) {
+        container.innerHTML = "<p class='empty'>Failed to load orders.</p>";
+        console.error('Error fetching orders:', error);
+      }
+    } 
+
+    async function cancelOrder(id, name) {
+      const token = localStorage.getItem('token');
+      await fetch(`http://localhost:3000/api/orders/${id}/cancel`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      localStorage.setItem("orders", JSON.stringify(orders));
       alert(`${name} order canceled.`);
       displayOrders();
     }
 
-    function removeOrder(name) {
-      orders = orders.filter(order => order.name !== name);
-      localStorage.setItem("orders", JSON.stringify(orders));
+    async function removeOrder(id) {
+      if (!confirm('Are you sure you want to remove this order?')) return;
+      const token = localStorage.getItem('token');
+      await fetch(`http://localhost:3000/api/orders/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       displayOrders();
     }
-
-    // Initial display
-    displayOrders();
   </script>
 </body>
 </html>
