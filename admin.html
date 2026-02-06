@@ -1,281 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manage All Orders - Drive Hub Motors</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 0;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Drive Hub Motors</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style> /* Page-specific styles */
+        h2 { text-align: center; margin: 20px 0; color: #121826; }
+        /* Buttons for actions */
+.list-item-actions button {
+  padding: 6px 12px;
+  margin: 2px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.1s ease;
+}
 
-    /* Navigation bar */
-    nav {
-      background-color: #232f3e;
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+.list-item-actions button:hover {
+  transform: scale(1.05);
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 20px;
-      font-weight: bold;
-    }
+.list-item-actions button[data-action="approve"] {
+  background-color: #1f7a7a;
+  color: white;
+}
 
-    nav a:hover {
-      text-decoration: underline;
-    }
-    
-    nav a.active {
-      color: #ff6b00;
-      text-decoration: underline;
-    }
+.list-item-actions button[data-action="complete"] {
+  background-color: #3d5a80;
+  color: white;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
+.list-item-actions button[data-action="cancel"] {
+  background-color: #d24c3d;
+  color: white;
+}
 
-    .order {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 15px auto;
-      width: 80%;
-      max-width: 800px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: background-color 0.3s;
-    }
+/* Hover effect for order cards */
+.list-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 10px 24px rgba(12, 16, 24, 0.12);
+  border: 1px solid rgba(18, 24, 38, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
 
-    .order:hover {
-        background-color: #f9f9f9;
-    }
+.list-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 30px rgba(12, 16, 24, 0.18);
+}
 
-    .order img {
-      width: 150px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin-right: 20px;
-    }
+.list-item img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
 
-    .order-details {
-        flex-grow: 1;
-    }
+/* Styles for Contact Messages Section */
+.messages-section h3 {
+    text-align: center;
+    margin: 40px 0 20px 0;
+    color: #121826;
+}
 
-    .order-details h3 {
-      margin: 0 0 10px 0;
-      color: #222;
-    }
+.message-item {
+    background-color: #fffaf2;
+    border-left: 4px solid #f0a03a;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(12, 16, 24, 0.08);
+}
 
-    .order-details p {
-      margin: 5px 0;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    .order-actions {
-      margin-left: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    button {
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-      color: #666;
-    }
-
-    .btn-approve { background-color: #28a745; color: white; }
-    .btn-approve:hover:not(:disabled) { background-color: #218838; }
-
-    .btn-complete { background-color: #007bff; color: white; }
-    .btn-complete:hover:not(:disabled) { background-color: #0056b3; }
-
-    .empty {
-      text-align: center;
-      color: #777;
-      margin-top: 40px;
-      font-size: 1.2rem;
-    }
-
-    .status-pending { color: #ff9900; font-weight: bold; }
-    .status-approved { color: #28a745; font-weight: bold; }
-    .status-completed { color: #007bff; font-weight: bold; }
-    .status-canceled { color: #dc3545; font-weight: bold; }
-
-  </style>
+    </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="vehicles.html">Vehicles</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="my-inquiries.html">My Inquiries</a>
-    <a href="orders.html">My Orders</a>
-    <a href="admin.html">Admin</a>
-  </nav>
+    <h2>Admin Dashboard</h2>
+    <div id="orders-list" class="list-container"></div>
+    <div class="messages-section list-container">
+        <h3>Contact Messages</h3>
+        <div id="messages-list"></div>
+    </div>
 
-  <h2>Manage All Orders</h2>
-  <div id="orders-list"></div>
+    <footer>
+        <p>&copy; 2025 Drive Hub Motors | All Rights Reserved</p>
+    </footer>
 
-  <script src="scripts/auth.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Security Check: Ensure user is an admin
-      const userRole = localStorage.getItem('role');
-      if (userRole !== 'admin') {
-        alert('Access Denied. You must be an administrator to view this page.');
-        window.location.href = 'index.html'; // Redirect non-admins
-        return;
-      }
+<script src="scripts/shared.js" type="module"></script>
+<script src="scripts/auth.js" type="module"></script>
+<script src="scripts/modal.js"></script>
+<script type="module">
+const API_BASE_URL = 'http://localhost:3000';
 
-      // If admin, display the orders.
-      displayAllOrders();
-      
-      const adminLink = document.querySelector('nav a[href="admin.html"]');
-      if(adminLink) adminLink.classList.add('active');
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+
+  if (!token || role !== 'admin') {
+    window.location.href = "login.html";
+    return;
+  }
+
+  await loadOrders();
+  await loadMessages();
+
+  document.getElementById("orders-list").addEventListener("click", async (e) => {
+    if (e.target.tagName !== 'BUTTON' || !e.target.dataset.action) return;
+
+    const id = e.target.dataset.id;
+    const action = e.target.dataset.action;
+
+    const confirmed = await showConfirmation(`Are you sure you want to ${action} this order?`);
+    if (!confirmed) return;
+
+    try {
+      await updateOrderStatus(id, action);
+      loadOrders();
+    } catch (error) {
+      console.error(`Failed to ${action} order:`, error);
+      showMessage(`Failed to ${action} order. Please try again.`);
+    }
+  });
+});
+
+// Load all orders for admin
+async function loadOrders() {
+  const container = document.getElementById("orders-list");
+  container.innerHTML = "<p>Loading orders...</p>";
+
+  showSpinner();
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE_URL}/api/admin/orders`, {
+      headers: { 'Authorization': `Bearer ${token}` }
     });
 
-    async function displayAllOrders() {
-      const container = document.getElementById("orders-list");
-      container.innerHTML = "<p class='empty'>Loading orders...</p>";
+    if (!res.ok) {
+      if (res.status === 401) {
+        showMessage("Session expired. Please log in again.");
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        window.location.href = 'login.html';
+      }
+      throw new Error(`Server responded with ${res.status}`);
+    }
 
-      try {
+    const orders = await res.json();
+    container.innerHTML = "";
+
+    if (orders.length === 0) {
+      container.innerHTML = "<p class='empty-message'>No orders yet.</p>";
+      return;
+    }
+
+    orders.forEach(order => {
+      const div = document.createElement("div");
+      div.className = "list-item";
+      const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(order.price);
+
+      div.innerHTML = `
+        <img src="${order.img}" alt="${order.name}">
+        <div class="list-item-details">
+          <h3>${order.name}</h3>
+          <p>Price: ${formattedPrice}</p>
+          <p>User: ${order.userEmail || 'N/A'}</p>
+          <p>Date: ${order.date}</p>
+          <p>Status: <span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></p>
+        </div>
+        <div class="list-item-actions">
+          ${order.status === 'Pending' ? `<button data-id="${order.id}" data-action="approve">Approve</button>` : ''}
+          ${order.status === 'Approved' ? `<button data-id="${order.id}" data-action="complete">Complete</button>` : ''}
+          ${order.status !== 'Completed' && order.status !== 'Canceled' ? `<button data-id="${order.id}" data-action="cancel">Cancel</button>` : ''}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p class='empty-message'>Failed to load orders. Check console.</p>";
+  } finally {
+    hideSpinner();
+  }
+}
+
+// Load all contact messages for admin
+async function loadMessages() {
+    const container = document.getElementById("messages-list");
+    container.innerHTML = "<p>Loading messages...</p>";
+
+    showSpinner();
+    try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/api/admin/orders', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const res = await fetch(`${API_BASE_URL}/api/admin/messages`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to fetch orders.');
+        if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
+        const messages = await res.json();
+        container.innerHTML = "";
+
+        if (messages.length === 0) {
+            container.innerHTML = "<p class='empty-message'>No contact messages received.</p>";
+            return;
         }
 
-        const orders = await response.json();
-
-        container.innerHTML = ""; // Clear loading message
-        if (orders.length === 0) {
-          container.innerHTML = "<p class='empty'>No orders to manage.</p>";
-        } else {
-          orders.forEach(order => {
+        messages.forEach(msg => {
             const div = document.createElement("div");
-            div.classList.add("order");
-            div.id = `order-${order.id}`; // Add an ID for easy targeting
-
-            const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(order.price);
-
+            div.className = "message-item";
             div.innerHTML = `
-              <img src="${order.img}" alt="${order.name}">
-              <div class="order-details">
-                <h3>${order.name}</h3>
-                <p>Price: <strong>${formattedPrice}</strong></p>
-                <p>User: <strong>${order.username || 'N/A'}</strong></p>
-                <p>Order Date: ${order.date}</p>
-                <p>Status: <span class="status-${(order.status || '').toLowerCase()}">${order.status || 'N/A'}</span></p>
-              </div>
-              <div class="order-actions">
-                <button class="btn-approve" onclick="approveOrder(${order.id}, this)" ${order.status !== 'Pending' ? 'disabled' : ''}>Approve</button>
-                <button class="btn-complete" onclick="completeOrder(${order.id}, this)" ${order.status !== 'Approved' ? 'disabled' : ''}>Complete</button>
-              </div>
+                <p><strong>From:</strong> ${msg.name} (<em>${msg.email}</em>)</p>
+                <p><strong>Message:</strong> ${msg.message}</p>
+                <p><small>Received: ${msg.receivedDate}</small></p>
             `;
             container.appendChild(div);
-          });
-        }
-      } catch (error) {
-        container.innerHTML = `<p class='empty' style='color: red;'>Error: ${error.message}</p>`;
-        console.error('Error fetching all orders:', error);
-      }
-    } 
-
-    async function approveOrder(id, buttonElement) {
-      // Provide immediate feedback
-      buttonElement.disabled = true;
-      buttonElement.textContent = 'Processing...';
-
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3000/api/orders/${id}/approve`, {
-          method: 'PUT',
-          headers: { 'Authorization': `Bearer ${token}` }
         });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to approve order.');
-        }
-
-        // Update the UI for this specific order instead of a full reload
-        const orderDiv = document.getElementById(`order-${id}`);
-        if (orderDiv) {
-          const statusSpan = orderDiv.querySelector('.order-details p span');
-          statusSpan.textContent = 'Approved';
-          statusSpan.className = 'status-approved';
-          
-          buttonElement.remove(); // Remove the approve button
-          
-          const completeButton = orderDiv.querySelector('.btn-complete');
-          if(completeButton) completeButton.disabled = false; // Enable the complete button
-        }
-      } catch (error) {
-        console.error('Error approving order:', error);
-        alert(`Could not approve order: ${error.message}`);
-        buttonElement.disabled = false; // Re-enable button on failure
-        buttonElement.textContent = 'Approve';
-      }
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p class='empty-message'>Failed to load messages.</p>";
+    } finally {
+        hideSpinner();
     }
+}
 
-    async function completeOrder(id, buttonElement) {
-      // Provide immediate feedback
-      buttonElement.disabled = true;
-      buttonElement.textContent = 'Processing...';
+// Update order status (Approve, Complete, Cancel)
+async function updateOrderStatus(id, action) {
+  const token = localStorage.getItem('token');
+  showSpinner();
+  
+  // The endpoint path is constructed directly from the action (e.g., 'approve', 'cancel')
+  let endpoint;
+  if (action === 'cancel') {
+    endpoint = `/api/orders/${id}/${action}`; // Shared cancel endpoint
+  } else {
+    endpoint = `/api/admin/orders/${id}/${action}`; // Admin-specific endpoints
+  }
 
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3000/api/orders/${id}/complete`, {
-          method: 'PUT',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
 
-        if (!response.ok) throw new Error('Failed to complete order.');
+  if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+  const data = await res.json();
+  showMessage(data.message || 'Order updated successfully');
+  hideSpinner();
+}
 
-        // Update the UI for this specific order
-        const orderDiv = document.getElementById(`order-${id}`);
-        if (orderDiv) {
-          const statusSpan = orderDiv.querySelector('.order-details p span');
-          statusSpan.textContent = 'Completed';
-          statusSpan.className = 'status-completed';
-          buttonElement.remove(); // Remove the complete button
-        }
-      } catch (error) {
-        console.error('Error completing order:', error);
-        alert('Could not complete order.');
-        buttonElement.disabled = false; // Re-enable on failure
-        buttonElement.textContent = 'Complete';
-      }
-    }
-  </script>
+</script>
+
 </body>
 </html>
+
+

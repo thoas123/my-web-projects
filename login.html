@@ -4,48 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Drive Hub Motors</title>
+    <link rel="stylesheet" href="styles/main.css"> <!-- Shared styles -->
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; }
-        nav { background-color: #333; padding: 10px 0; text-align: center; position: fixed; top: 0; width: 100%; z-index: 1000; }
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.3s; }
-        nav a:hover { color: #ff6b00; }
-        nav a.active { color: #ff6b00; text-decoration: underline; }
-
-        .form-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 320px; text-align: center; margin: 30px auto; }
-        h2 { margin-bottom: 20px; color: #333; }
-        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #0056b3; }
-        .message { margin-top: 15px; color: red; }
-        .switch-form { margin-top: 20px; font-size: 14px; }
-        .switch-form a { color: #007bff; text-decoration: none; }
+        /* Page-specific styles */
+        body { background-image: url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1964&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; }
+        .form-container button { background-color: #1f7a7a; }
+        .form-container button:hover { background-color: #156364; }
+        .forgot-password { text-align: right; margin-top: -10px; margin-bottom: 15px; font-size: 14px; }
+        #loading { display: none; }
+        .forgot-password a { color: #1f7a7a; text-decoration: none; }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        main { flex-grow: 1; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="vehicles.html">Vehicles</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="my-inquiries.html">My Inquiries</a>
-      <a href="orders.html">My Orders</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-
-    
-    <div class="form-container">
-        <h2>Login</h2>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <p id="message" class="message"></p>
-        </form>
-        <div class="switch-form">
-            Don't have an account? <a href="register.html">Register here</a>
+    <main>
+        <div class="form-container">
+            <h2>Welcome Back!</h2>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <div class="forgot-password">
+                    <a href="forgot-password.html">Forgot Password?</a>
+                </div>
+                <button type="submit">Login</button>
+                <div id="loading">Loading...</div>
+                <p id="message" class="message"></p>
+            </form>
+            <div class="switch-form">
+                Don't have an account? <a href="register.html">Register here</a>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <script src="scripts/auth.js"></script>
+    <footer>
+        <p>&copy; 2025 Drive Hub Motors | All Rights Reserved</p>
+    </footer>
+
+    <!-- Modal for confirmations and notifications -->
+    <!-- The modal is now loaded from modal.js -->
+
+    <script src="scripts/shared.js" type="module"></script>
+    <script src="scripts/auth.js" type="module"></script>
+    <script src="scripts/modal.js"></script>
+    <script type="module">
+      // This script is now a module to allow imports if needed in the future.
+      import { API_BASE_URL } from './scripts/config.js';
+    </script>
 </body>
 </html>

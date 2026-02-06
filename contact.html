@@ -4,114 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us - Drive Hub Motors</title>
-  <style>
-    body {
-      background-color: #f2f2f2;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    nav {
-      background-color: #333;
-      padding: 10px 0;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #ff6b00;
-    }
-
-    section {
-      text-align: center;
-      margin-top: 80px; /* to prevent overlap with fixed nav */
-      padding: 20px;
-    }
-
-    .contact {
-      background-color: white;
-      display: inline-block;
-      text-align: left;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .contact h2 {
-      color: #ff6b00;
-    }
-
-    .contact-info, .hours {
-      margin-bottom: 15px;
-    }
-
-    .form {
-      background-color: white;
-      width: 320px;
-      padding: 20px;
-      margin: 30px auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 8px 0;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #ff6b00;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #e65c00;
-    }
-  </style>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/contact.css">
 </head>
 <body>
-  <script src="scripts/auth.js"></script>
-  <nav>
-      <a href="index.html">Home</a>
-      <a href="vehicles.html">Vehicles</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="my-inquiries.html">My Inquiries</a>
-      <a href="orders.html">My Orders</a>
-      <a href="admin.html">Admin</a>
-  </nav>
-
-  <section>
-    <div class="contact">
-      <h2>Contact Us</h2>
-      <p>Get in touch with us for any inquiries about our vehicles:</p>
+  <main class="contact-container">
+    <section class="contact-hero">
+      <div>
+        <p class="contact-eyebrow">Talk to the team</p>
+        <h1>Marketplace support with a human touch.</h1>
+        <p>Get pricing, trade-in guidance, or a custom order. We respond within one business day.</p>
+      </div>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <h3>Call us</h3>
+          <p>(555) 123-4567</p>
+          <span>Mon - Fri, 9:00 AM - 6:00 PM</span>
+        </div>
+        <div class="contact-card">
+          <h3>Email</h3>
+          <p>info@drivehubmotorstrevorpoppy.com</p>
+          <span>We respond within 24 hours.</span>
+        </div>
+        <div class="contact-card">
+          <h3>Visit</h3>
+          <p>123 Car Street, Nairobi City</p>
+          <span>Saturday showroom hours: 10 AM - 4 PM</span>
+        </div>
+      </div>
+    </section>
+    <div class="contact-form">
+      <form id="contact-form">
+        <h3>Send Us a Message</h3>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+  
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+  
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+  
+        <button type="submit">Submit</button>
+        <p id="form-message" class="message"></p>
+      </form>
+    </div>
+  
+    <div class="contact-details">
+      <h2>Our Information</h2>
+      <p>Get in touch with us for any inquiries about our vehicles.</p>
       <div class="contact-info">
         <p><strong>Email:</strong> info@drivehubmotorstrevorpoppy.com</p>
         <p><strong>Phone:</strong> (555) 123-4567</p>
-        <p><strong>Address:</strong> 123 Car Street,Nairobi City, AC 12345</p>
+        <p><strong>Address:</strong> 123 Car Street, Nairobi City, AC 12345</p>
       </div>
       <div class="hours">
         <h3>Business Hours:</h3>
@@ -119,42 +64,57 @@
         <p>Saturday: 10:00 AM - 4:00 PM</p>
         <p>Sunday: Closed</p>
       </div>
+      <div class="contact-map">
+        <div class="map-placeholder">
+          <span>Showroom Map Placeholder</span>
+        </div>
+      </div>
     </div>
-  </section>
+  </main>
 
-  <div class="form">
-    <form onsubmit="handleFormSubmit(event)">
-      <h3>Send Us a Message</h3>
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+  <footer>
+      <p>&copy; 2025 Drive Hub Motors | All Rights Reserved</p>
+  </footer>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+  <script src="scripts/shared.js" type="module"></script>
+  <script src="scripts/auth.js" type="module"></script>
+  <script type="module">
+    import { API_BASE_URL } from './scripts/config.js';
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('nav a[href="contact.html"]').classList.add('active');
 
-      <button type="submit">Submit</button>
-      <p id="form-message"></p>
-    </form>
-  </div>
-  <script>
-    function handleFormSubmit(event){
-      event.preventDefault(); // Corrected the typo here
-      const name=document.getElementById("name").value;
-      const email=document.getElementById("email").value;
-      const message=document.getElementById("message").value;
-      const demo=document.getElementById("form-message");
-      if(name !=""&& email !="" && message !=""){
-        demo.textContent="Thank you for your message!";
+      document.getElementById('contact-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const button = form.querySelector('button');
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+        const messageEl = document.getElementById("form-message");
 
-      }
-      else{
-             demo.textContent="Please fill out all fields.";
-  
-      }
-    }
+        button.disabled = true;
+        button.textContent = 'Sending...';
 
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/contact`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+          });
+          const data = await response.json();
+          messageEl.textContent = data.message;
+          messageEl.className = 'message success';
+          form.reset();
+        } catch (error) {
+          messageEl.textContent = "Failed to send message. Please try again later.";
+          messageEl.className = 'message error';
+        } finally {
+          button.disabled = false;
+          button.textContent = 'Submit';
+        }
+      });
+    });
   </script>
 </body>
 </html>

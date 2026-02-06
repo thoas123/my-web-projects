@@ -5,20 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Our Vehicles - Drive Hub Motors</title>
     <link rel="stylesheet" href="styles/vehicle.css" />
-    <script src="scripts/vehicle.js"></script>
-    <script src="scripts/auth.js"></script>
+    <link rel="stylesheet" href="styles/main.css"> <!-- For shared styles -->
+    
   </head>
   <body>
     <div class="header">
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="vehicles.html">Vehicles</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="my-inquiries.html">My Inquiries</a>
-        <a href="orders.html">My Orders</a>
-        <a href="admin.html">Admin</a>
-      </nav>
 
       <header class="page-header">
         <h2>Our Vehicle Collection</h2>
@@ -26,8 +17,25 @@
       </header>
     </div>
 
+    <div class="filter-container">
+      <input type="text" id="search-input" placeholder="Search by name..." />
+      <select id="type-filter">
+        <option value="">All Types</option>
+        <option value="Sedan">Sedan</option>
+        <option value="Coupe">Coupe</option>
+        <option value="SUV">SUV</option>
+        <option value="Hatchback">Hatchback</option>
+        <option value="Truck">Truck</option>
+        <option value="Bike">Bike</option>
+        <option value="Convertible">Convertible</option>
+      </select>
+      <input type="number" id="min-price" placeholder="Min Price" />
+      <input type="number" id="max-price" placeholder="Max Price" />
+      <button id="reset-btn">Reset Filters</button>
+    </div>
+
     <main class="vehicle-gallery">
-      <div class="car-card">
+      <div class="car-card" data-type="Sedan" data-price="45000">
         <img src="carImages/car1.png.jpg" alt="Premium Luxury Sedan" />
         <div class="car-details">
           <h3>Premium Luxury Sedan</h3>
@@ -39,10 +47,10 @@
             <li>Powerful engine performance</li>
           </ul>
           <p class="price">Starting at $45,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Premium Luxury Sedan', 'carImages/car1.png.jpg', '$45,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Premium Luxury Sedan" data-img="carImages/car1.png.jpg" data-price="45000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Coupe" data-price="38000">
         <img src="carImages/car2.png.jpg" alt="Sporty Coupe" />
         <div class="car-details">
           <h3>Sporty Coupe</h3>
@@ -55,10 +63,10 @@
           </ul>
           <p class="price">Starting at $38,000</p>
          
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Sporty Coupe', 'carImages/car2.png.jpg', '$38,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Sporty Coupe" data-img="carImages/car2.png.jpg" data-price="38000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="SUV" data-price="32000">
         <img src="carImages/car3.png.jpg" alt="Family SUV" />
         <div class="car-details">
           <h3>Family SUV</h3>
@@ -71,10 +79,10 @@
           </ul>
           <p class="price">Starting at $32,000</p>
           
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Family SUV', 'carImages/car3.png.jpg', '$32,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Family SUV" data-img="carImages/car3.png.jpg" data-price="32000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Hatchback" data-price="29000">
         <img src="carImages/car4.png.jpg" alt="Electric Hatchback" />
         <div class="car-details">
           <h3>Electric Hatchback</h3>
@@ -86,10 +94,10 @@
             <li>Fast charging capability</li>
           </ul>
           <p class="price">Starting at $29,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Electric Hatchback', 'carImages/car4.png.jpg', '$29,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Electric Hatchback" data-img="carImages/car4.png.jpg" data-price="29000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Truck" data-price="40000">
         <img src="carImages/car5.png.jpg" alt="Off-Road Truck" />
         <div class="car-details">
           <h3>Off-Road Truck</h3>
@@ -101,10 +109,10 @@
             <li>Powerful towing capacity</li>
           </ul>
           <p class="price">Starting at $40,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Off-Road Truck', 'carImages/car5.png.jpg', '$40,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Off-Road Truck" data-img="carImages/car5.png.jpg" data-price="40000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Bike" data-price="15000">
         <img src="carImages/car6.png.jpg" alt="Sport Bike" />
         <div class="car-details">
           <h3>Sport Bike</h3>
@@ -116,10 +124,10 @@
             <li>Aerodynamic design</li>
           </ul>
           <p class="price">Starting at $15,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Sport Bike', 'carImages/car6.png.jpg', '$15,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Sport Bike" data-img="carImages/car6.png.jpg" data-price="15000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="SUV" data-price="35000">
         <img src="carImages/car7.png.jpg" alt="Hybrid Crossover" />
         <div class="car-details">
           <h3>Hybrid Crossover</h3>
@@ -131,10 +139,10 @@
             <li>Modern infotainment system</li>
           </ul>
           <p class="price">Starting at $35,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Hybrid Crossover', 'carImages/car7.png.jpg', '$35,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Hybrid Crossover" data-img="carImages/car7.png.jpg" data-price="35000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Convertible" data-price="50000">
         <img src="carImages/car8.png.jpg" alt="Convertible Roadster" />
         <div class="car-details">
           <h3>Convertible Roadster</h3>
@@ -146,10 +154,10 @@
             <li>Luxurious interior</li>
           </ul>
           <p class="price">Starting at $50,000</p>
-               <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Convertible Roadster', 'carImages/car8.png.jpg', '$50,000')">Inquire Now</a>
+               <a href="#" class="inquiry-btn" data-name="Convertible Roadster" data-img="carImages/car8.png.jpg" data-price="50000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Sedan" data-price="22000">
         <img src="carImages/car9.png.jpg" alt="Compact Sedan" />
         <div class="car-details">
           <h3>Compact Sedan</h3>
@@ -161,10 +169,10 @@
             <li>Modern infotainment system</li>
           </ul>
           <p class="price">Starting at $22,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Compact Sedan', 'carImages/car9.png.jpg', '$22,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Compact Sedan" data-img="carImages/car9.png.jpg" data-price="22000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="SUV" data-price="60000">
         <img src="carImages/car10.png.jpg" alt="Luxury SUV" />
         <div class="car-details">
           <h3>Luxury SUV</h3>
@@ -176,10 +184,10 @@
             <li>State-of-the-art infotainment system</li>
           </ul>
           <p class="price">Starting at $60,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Luxury SUV', 'carImages/car10.png.jpg', '$60,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Luxury SUV" data-img="carImages/car10.png.jpg" data-price="60000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="SUV" data-price="55000">
         <img src="carImages/car11.png.jpg" alt="Electric SUV" />
         <div class="car-details">
           <h3>Electric SUV</h3>
@@ -191,10 +199,10 @@
             <li>Fast charging capability</li>
           </ul>
           <p class="price">Starting at $55,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Electric SUV', 'carImages/car11.png.jpg', '$55,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Electric SUV" data-img="carImages/car11.png.jpg" data-price="55000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Sedan" data-price="48000">
         <img src="carImages/car12.png.jpg" alt="Performance Sedan" />
         <div class="car-details">
           <h3>Performance Sedan</h3>
@@ -206,10 +214,10 @@
             <li>Luxurious interior features</li>
           </ul>
           <p class="price">Starting at $48,000</p>
-        <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Performance Sedan', 'carImages/car12.png.jpg', '$48,000')">Inquire Now</a>
+        <a href="#" class="inquiry-btn" data-name="Performance Sedan" data-img="carImages/car12.png.jpg" data-price="48000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Hatchback" data-price="20000">
         <img src="carImages/car13.png.jpg" alt="Mini Electric Car" />
         <div class="car-details">
           <h3>Mini Electric Car</h3>
@@ -223,10 +231,10 @@
             <li>Affordable electric mobility</li>
           </ul>
           <p class="price">Starting at $20,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Mini Electric Car', 'carImages/car13.png.jpg', '$20,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Mini Electric Car" data-img="carImages/car13.png.jpg" data-price="20000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Coupe" data-price="70000">
         <img src="carImages/car14.png.jpg" alt="Luxury Coupe" />
         <div class="car-details">
           <h3>Luxury Coupe</h3>
@@ -238,10 +246,10 @@
             <li>Advanced technology features</li>
           </ul>
           <p class="price">Starting at $70,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Luxury Coupe', 'carImages/car14.png.jpg', '$70,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Luxury Coupe" data-img="carImages/car14.png.jpg" data-price="70000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="SUV" data-price="35000">
         <img src="carImages/car15.png.jpg" alt="Crossover SUV" />
         <div class="car-details">
           <h3>Crossover SUV</h3>
@@ -253,10 +261,10 @@
             <li>Modern infotainment system</li>
           </ul>
           <p class="price">Starting at $35,000</p>
-          <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Crossover SUV', 'carImages/car15.png.jpg', '$35,000')">Inquire Now</a>
+          <a href="#" class="inquiry-btn" data-name="Crossover SUV" data-img="carImages/car15.png.jpg" data-price="35000">Inquire Now</a>
         </div>
       </div>
-      <div class="car-card">
+      <div class="car-card" data-type="Convertible" data-price="52000">
         <img src="carImages/car16.png.jpg" alt="Roadster Convertible" />
         <div class="car-details">
           <h3>Roadster Convertible</h3>
@@ -268,9 +276,97 @@
             <li>Luxurious interior features</li>
           </ul>
           <p class="price">Starting at $52,000</p>
-         <a href="#" class="inquiry-btn" onclick="saveInquiry(event, 'Roadster Convertible', 'carImages/car16.png.jpg', '$52,000')">Inquire Now</a>
+         <a href="#" class="inquiry-btn" data-name="Roadster Convertible" data-img="carImages/car16.png.jpg" data-price="52000">Inquire Now</a>
         </div>
       </div>
     </main>
+
+    <footer>
+      <p>&copy; 2025 Drive Hub Motors | All Rights Reserved</p>
+    </footer>
+
+    <script src="scripts/shared.js" type="module"></script>
+    <script src="scripts/auth.js" type="module"></script>
+    <script src="scripts/modal.js"></script>
+    <script type="module"> // Ensure this is type="module" for imports
+      import { filterVehicles } from './scripts/vehicle-filter.js';
+      import { API_BASE_URL } from './scripts/config.js';
+      document.addEventListener('DOMContentLoaded', () => {
+        const vehiclesLink = document.querySelector('nav a[href="vehicles.html"]');
+        if (vehiclesLink) vehiclesLink.classList.add('active');
+        const gallery = document.querySelector('.vehicle-gallery');
+        if (!gallery) return;
+
+        gallery.addEventListener('click', async (event) => {
+          if (event.target.classList.contains('inquiry-btn')) {
+            event.preventDefault();
+
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+            if (!token) {
+              const notifier = window.showMessage || window.alert;
+              notifier('You must be logged in to make an inquiry.');
+              setTimeout(() => window.location.href = 'login.html', 1500); // Redirect after message
+              return;
+            }
+            if (role !== 'user') {
+              const notifier = window.showMessage || window.alert;
+              notifier('Only customer accounts can submit inquiries. Please log in with a user account.');
+              return;
+            }
+
+            const button = event.target;
+            const { name, img, price } = button.dataset;
+
+            try {
+              const res = await fetch(`${API_BASE_URL}/api/inquiries`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                  name,
+                  img,
+                  price: parseFloat(price),
+                  date: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
+                  status: 'Pending'
+                })
+              });
+
+              if (res.ok) {
+                const notifier = window.showMessage || window.alert;
+                notifier('Inquiry sent successfully! You can view it in "My Inquiries".');
+                setTimeout(() => window.location.href = 'my-inquiries.html', 1500);
+              } else {
+                if (res.status === 403) {
+                  const notifier = window.showMessage || window.alert;
+                  notifier('Only customer accounts can submit inquiries. Please log in with a user account.');
+                  return;
+                }
+                if (res.status === 401) {
+                  localStorage.removeItem('token');
+                  localStorage.removeItem('role');
+                  const notifier = window.showMessage || window.alert;
+                  notifier('Your session expired. Please log in again.');
+                  setTimeout(() => window.location.href = 'login.html', 1500);
+                  return;
+                }
+                const errorData = await res.json();
+                const notifier = window.showMessage || window.alert;
+                notifier(`Failed to send inquiry: ${errorData.message}`);
+              }
+            } catch (error) {
+              console.error('Inquiry submission error:', error);
+              const notifier = window.showMessage || window.alert;
+              notifier('An error occurred while sending your inquiry. Please try again.');
+            }
+          }
+        });
+
+        // Initialize filtering
+        filterVehicles();
+      });
+    </script>
   </body>
 </html>
