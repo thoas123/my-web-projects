@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-me-in-production')
 socketio = SocketIO(app)
 
 rooms = {'global': set()}
@@ -38,7 +38,7 @@ def on_join(data):
     system_msg = {
         'user': 'System',
         'text': f'{username} joined the chat.',
-        'time': datetime.utcnow().strftime('%H:%M:%S')
+        'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
     messages.setdefault(room, []).append(system_msg)
     if len(messages[room]) > max_history:
@@ -63,7 +63,7 @@ def handle_message(data):
     msg = {
         'user': user,
         'text': text,
-        'time': datetime.utcnow().strftime('%H:%M:%S')
+        'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
 
     messages.setdefault(room, []).append(msg)
@@ -88,7 +88,7 @@ def on_disconnect():
     system_msg = {
         'user': 'System',
         'text': f'{username} left the chat.',
-        'time': datetime.utcnow().strftime('%H:%M:%S')
+        'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
     messages.setdefault(room, []).append(system_msg)
     if len(messages[room]) > max_history:

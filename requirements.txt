@@ -3,7 +3,7 @@ Flask-SocketIO==5.3.6
 python-socketio==5.8.0
 Flask-SQLAlchemy==3.0.5
 Flask-Login==0.6.3
-pywebview==3.7
-PySide6==6.11.0  # PySide6 may not support Python 3.14; use Python 3.13/3.12 for desktop GUI support
-pyinstaller==6.19.0  # latest version supporting Python 3.14
-requests==2.31.0
+PySide6
+pywebview
+requests
+eventlet
