@@ -4,7 +4,7 @@
         {
             "label": "Run Flask App",
             "type": "shell",
-            "command": "c:/python314/python.exe app.py",
+            "command": "c:/python314/python.exe whatsapp-clone/app.py",
             "group": {
                 "kind": "build",
                 "isDefault": true

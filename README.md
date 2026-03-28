@@ -161,21 +161,20 @@ heroku open
 ## Manual Installation
 
 1. Install dependencies:
-   pip install -r requirements.txt
+   pip install -r whatsapp-clone/requirements.txt
 
 2. Run as web app:
-   python app.py
+   python whatsapp-clone/app.py
 
 3. Open http://localhost:5000 in your browser.
 
 ## Run as desktop app
 
 ### Option 1 (easy, fallback): webview or browser
-
 1. Install requirements:
-   python -m pip install -r requirements.txt
+   python -m pip install -r whatsapp-clone/requirements.txt
 2. Run:
-   python desktop.py
+   python whatsapp-clone/desktop.py
 
 If `pywebview` starts correctly, a native window appears. Otherwise, it opens your default browser.
 
@@ -183,20 +182,20 @@ If `pywebview` starts correctly, a native window appears. Otherwise, it opens yo
 
 1. Ensure requirements installed (`PySide6` included).
 2. Run:
-   python desktop_pyside.py
+   python whatsapp-clone/desktop_pyside.py
 
 ### Option 3 (pack as one-file executable with PyInstaller)
 
 1. Install pyinstaller if needed:
    python -m pip install pyinstaller
 2. Build:
-   pyinstaller --onefile desktop.py
+   pyinstaller --onefile whatsapp-clone/desktop.py
 3. Run the generated EXE from `dist\desktop.exe`.
 
 ### Option 4 (web mode, most stable across all platforms)
 
 1. Run:
-   python app.py
+   python whatsapp-clone/app.py
 2. Open: http://127.0.0.1:5000
 
 ### Notes

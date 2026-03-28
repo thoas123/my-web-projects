@@ -8,9 +8,9 @@
 
 - [x] Install Required Extensions
 
-- [x] Compile the Project (Fixed NameErrors and redundant message logic in app.py)
+- [x] Compile the Project (Fixed NameErrors and redundant message logic in whatsapp-clone/app.py)
 
-- [x] Create and Run Task (Verified tasks.json is functional)
+- [x] Create and Run Task (Verified tasks.json is functional, updated to whatsapp-clone/app.py)
 
 - [x] Launch the Project (App is ready for local and network testing)
 
