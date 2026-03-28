@@ -11,7 +11,14 @@ socketio = SocketIO(app)
 rooms = {'global': set()}
 messages = {'global': []}
 user_sessions = {}  # sid -> (username, room)
-max_history = 200
+MAX_HISTORY = 200
+
+def add_message(room, msg):
+    """Helper to store message and maintain history limit."""
+    room_msgs = messages.setdefault(room, [])
+    room_msgs.append(msg)
+    if len(room_msgs) > MAX_HISTORY:
+        room_msgs.pop(0)
 
 @app.route('/')
 def index():
@@ -40,36 +47,28 @@ def on_join(data):
         'text': f'{username} joined the chat.',
         'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
-    messages.setdefault(room, []).append(system_msg)
-    if len(messages[room]) > max_history:
-        messages[room].pop(0)
+    add_message(room, system_msg)
     emit('message', system_msg, room=room)
 
 @socketio.on('message')
 def handle_message(data):
-    if isinstance(data, str):
-        # Keep compatibility with simple strings
-        user = 'Unknown'
-        text = data
-        room = 'global'
-    else:
-        user = data.get('user', 'Unknown')
-        text = data.get('text', '')
-        room = data.get('room', 'global')
+    sid = request.sid
+    if sid not in user_sessions:
+        return
+
+    username, room = user_sessions[sid]
+    text = data.get('text', '') if isinstance(data, dict) else data
 
     if not text.strip():
         return
 
     msg = {
-        'user': user,
+        'user': username,
         'text': text,
         'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
 
-    messages.setdefault(room, []).append(msg)
-    if len(messages[room]) > max_history:
-        messages[room].pop(0)
-
+    add_message(room, msg)
     emit('message', msg, room=room)
 
 @socketio.on('disconnect')
@@ -90,9 +89,7 @@ def on_disconnect():
         'text': f'{username} left the chat.',
         'time': datetime.now(timezone.utc).strftime('%H:%M:%S')
     }
-    messages.setdefault(room, []).append(system_msg)
-    if len(messages[room]) > max_history:
-        messages[room].pop(0)
+    add_message(room, system_msg)
     emit('message', system_msg, room=room)
 
 if __name__ == '__main__':

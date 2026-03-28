@@ -1,10 +1,19 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "Run Chat App",
-			"type": "shell",
-			"command": "python"
-		}
-	]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Flask App",
+            "type": "shell",
+            "command": "c:/python314/python.exe app.py",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
 }
